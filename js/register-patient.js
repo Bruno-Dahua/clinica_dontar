@@ -37,7 +37,7 @@ document.getElementById("container__register").addEventListener("submit", functi
     })
         .then(res => {
             alert("Usted se registro correctamente");
-            window.location.href= "/clinica_dontar/html/login.html";
+            window.location.href= "/html/login.html";
         })
         .catch(err => {
             if (err.response && err.response.data) {
