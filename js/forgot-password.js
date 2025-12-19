@@ -22,7 +22,7 @@ document.getElementById("forgot-password").addEventListener("submit", function (
 
     axios({
         method: 'put',
-        url: 'http://clinicadontar.com/auth/forgot-password',
+        url: 'https://turnosmedicos-production.up.railway.app/auth/forgot-password',
         data: data,
     })
         .then(res => {

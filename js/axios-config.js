@@ -1,8 +1,8 @@
 
 
 const api = axios.create({
-    baseURL:'https://clinicadontar.com',
-    withCredentials: true,  // Esto asegura que se envíen las cookies de sesión si es necesario
+    baseURL:'https://turnosmedicos-production.up.railway.app',
+    withCredentials: true, 
 });
 
 api.interceptors.request.use(
