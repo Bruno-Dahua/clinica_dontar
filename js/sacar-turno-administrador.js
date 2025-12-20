@@ -77,8 +77,116 @@ function getProfessionalForSpeciality() {
     });
 }
 
+function selectDayAppointment() {
+    document.getElementById("profesional").addEventListener("change", async function () {
+
+        const idProfesional = this.value;
+        const selectDate = document.getElementById("fecha");
+        selectDate.innerHTML = '<option value="">Seleccione una fecha</option>';
+        selectDate.disabled = true;
+
+        if(!idProfesional) return;
+
+        await api.get(`appointment/date/${idProfesional}`)
+        .then(response => {
+            const fechas = response.data;
+            fechas.forEach(fecha => {
+                const option = document.createElement("option");
+                option.value = fecha;
+                option.textContent = fecha; 
+                selectDate.appendChild(option);
+            });
+
+            if(fechas.length > 0){
+                selectDate.disabled = false;
+            }
+
+        })
+        .catch(err => {
+            alert(JSON.stringify(err.response.data));
+        });
+    });
+
+}
+
+function selectTimeAppointment() {
+    document.getElementById("fecha").addEventListener("change", async function() {
+        const fecha = this.value;
+        const idProfesional = document.getElementById("profesional").value;
+        const selectTime = document.getElementById("hora");
+        selectTime.innerHTML = '<option value="">Seleccione un horario</option>';
+        selectTime.disabled = true;
+
+        if(!idProfesional || !fecha) return;
+
+        await api.get(`appointment/available/${idProfesional}?date=${fecha}`)
+        .then(res => {
+            const horarios = res.data;
+            horarios.forEach(time => {
+                const option = document.createElement("option");
+                option.value = time;
+                option.textContent = time;
+                selectTime.appendChild(option);
+            });
+
+            if(horarios.length > 0){
+                selectTime.disabled = false;
+            }
+        })
+        .catch(err => {
+            alert(JSON.stringify(err.response.data));
+        });
+
+    });
+}
+
+function bookAppointment() {
+    document.getElementById("confirmarTurno").addEventListener("click", (event) => {
+        event.preventDefault();
+
+        const idSpeciality = document.getElementById("especialidad").value;
+        const idProfesional = document.getElementById("profesional").value;
+        const day = document.getElementById("fecha").value;
+        const time = document.getElementById("hora").value;
+        const isFirstVisit = document.getElementById("primeraConsulta").checked;
+
+        const appointment = {
+            appointmentDay: day,
+            appointmentTime: time,
+            idProfessional: idProfesional,
+            idSpeciality: idSpeciality,
+            firstAppointment: isFirstVisit
+        };
+
+        api.post(`appointment/reservation`, appointment)
+        .then(res => {
+            alert("El turno se ha registrado correctamente");
+            limpiarCampos()
+        })
+        .catch(err => {
+            alert(JSON.stringify(err.response.data));
+            limpiarCampos();
+        });
+
+    })
+
+}
+
+function limpiarCampos(){
+    
+    document.getElementById("especialidad").value = '';
+    document.getElementById("profesional").value = '';
+    document.getElementById("fecha").value = '';
+    document.getElementById("hora").value = '';
+    document.getElementById("primeraConsulta").checked = '';
+
+}
+
 document.addEventListener("DOMContentLoaded", () => {
     getPatientById(),
     getSpeciality(),
-    getProfessionalForSpeciality()
+    getProfessionalForSpeciality(),
+    selectDayAppointment(),
+    selectTimeAppointment(),
+    bookAppointment()
 })
