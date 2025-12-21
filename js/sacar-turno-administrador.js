@@ -161,7 +161,9 @@ function bookAppointment() {
             firstAppointment: isFirstVisit
         };
 
-        console.log("id" + idPatient);
+        console.log("APPOINTMENT QUE ENVÍO:", appointment);
+        console.log("ID PATIENT:", appointment.idPatient);
+        console.log("TIPO ID PATIENT:", typeof appointment.idPatient);
 
         api.post(`appointment/reservation`, appointment)
         .then(res => {
