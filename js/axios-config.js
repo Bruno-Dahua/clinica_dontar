@@ -1,8 +1,7 @@
 
 
 const api = axios.create({
-    baseURL:'https://turnosmedicos-production.up.railway.app',
-    withCredentials: true, 
+    baseURL:'https://turnosmedicos-production.up.railway.app'
 });
 
 api.interceptors.request.use(

@@ -13,7 +13,7 @@ function getPatientById() {
             document.getElementById("nombre").value = data.firstName;
             document.getElementById("apellido").value = data.lastName;
 
-            localStorage.setItem("idPatient", patient.id);
+            localStorage.setItem("idPatient", data.id);
 
         }
         catch(err) {
