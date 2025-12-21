@@ -161,6 +161,8 @@ function bookAppointment() {
             firstAppointment: isFirstVisit
         };
 
+        console.log("id" + idPatient);
+
         api.post(`appointment/reservation`, appointment)
         .then(res => {
             alert("El turno se ha registrado correctamente");
