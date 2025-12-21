@@ -13,6 +13,8 @@ function getPatientById() {
             document.getElementById("nombre").value = data.firstName;
             document.getElementById("apellido").value = data.lastName;
 
+            localStorage.setItem("idPatient", patient.id);
+
         }
         catch(err) {
             alert(JSON.stringify(err.response.data));
@@ -155,6 +157,7 @@ function bookAppointment() {
             appointmentTime: time,
             idProfessional: idProfesional,
             idSpeciality: idSpeciality,
+            idPatient: localStorage.getItem("idPatient"),
             firstAppointment: isFirstVisit
         };
 
